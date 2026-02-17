@@ -1,0 +1,5 @@
+django
+openai
+google-genai
+Pillow
+python-dotenv

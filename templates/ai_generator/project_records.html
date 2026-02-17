@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generated Records</title>
+  <link rel="stylesheet" href="{% static 'css/theme.css' %}" />
+</head>
+<body class="page-project-records">
+  <main class="wrap">
+    <section class="hero">
+      <h1>Generated Records</h1>
+      <p class="sub">Browse every saved project and open its generated post set.</p>
+    </section>
+
+    <div class="actions">
+      <a class="btn primary" href="/">Create New Project</a>
+    </div>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    {% if projects %}
+      <section class="grid">
+        {% for project in projects %}
+          <article class="card">
+            <h2>{{ project.business_name }}</h2>
+            <div class="row"><span>Industry</span><strong>{{ project.industry }}</strong></div>
+            <div class="row"><span>Location</span><strong>{{ project.location }}</strong></div>
+            <div class="row"><span>Goal</span><strong>{{ project.goal }}</strong></div>
+            <div class="row"><span>Tone</span><strong>{{ project.tone }}</strong></div>
+            <div class="row"><span>Posts</span><strong>{{ project.post_count }}</strong></div>
+            <div class="row"><span>Created</span><strong>{{ project.created_at|date:"M d, Y H:i" }}</strong></div>
+            <div class="actions">
+              <a class="btn primary" href="{% url 'project_results' project.id %}">View Posts</a>
+              <a class="btn" href="{% url 'export_project_txt' project.id %}">Export TXT</a>
+              <button
+                class="btn danger"
+                type="button"
+                data-project-name="{{ project.business_name }}"
+                data-delete-url="{% url 'delete_project_record' project.id %}"
+                onclick="openDeleteModal(this)"
+              >
+                Delete
+              </button>
+            </div>
+          </article>
+        {% endfor %}
+      </section>
+    {% else %}
+      <section class="empty">
+        <h2>No generated records yet.</h2>
+        <p>Create a project first and generated posts will appear here.</p>
+      </section>
+    {% endif %}
+
+    <div id="deleteModal" class="modal-backdrop" onclick="closeDeleteModal(event)">
+      <div class="modal">
+        <h3>Delete Record</h3>
+        <p id="deleteText"></p>
+        <form id="deleteForm" method="post" action="">
+          {% csrf_token %}
+          <div class="actions">
+            <button class="btn danger" type="submit">Yes, Delete</button>
+            <button class="btn" type="button" onclick="closeDeleteModal()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+  <script>
+    const deleteModal = document.getElementById("deleteModal");
+    const deleteForm = document.getElementById("deleteForm");
+    const deleteText = document.getElementById("deleteText");
+
+    function openDeleteModal(button) {
+      const projectName = button.getAttribute("data-project-name");
+      const deleteUrl = button.getAttribute("data-delete-url");
+      deleteForm.setAttribute("action", deleteUrl);
+      deleteText.textContent = `Are you sure you want to delete "${projectName}"? This will remove all generated posts for this project.`;
+      deleteModal.style.display = "flex";
+    }
+
+    function closeDeleteModal(event) {
+      if (!event || event.target === deleteModal) {
+        deleteModal.style.display = "none";
+      }
+    }
+  </script>
+</body>
+</html>

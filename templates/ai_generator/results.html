@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generated Campaign Pack</title>
+  <style>
+    :root {
+      --ink: #1e1d2d;
+      --ink-soft: #5b5875;
+      --line: rgba(48, 46, 78, 0.16);
+      --bg: #f6f8ff;
+      --surface: #ffffff;
+      --primary: #ff6f3f;
+      --primary-2: #fd9a4f;
+      --chip: #eef1ff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Manrope", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(900px 500px at -5% -15%, #e1e6ff 0%, transparent 60%),
+        radial-gradient(1000px 550px at 105% 5%, #ffe4d7 0%, transparent 62%),
+        var(--bg);
+      min-height: 100vh;
+      padding: 2rem 1rem 3rem;
+    }
+
+    .wrap { max-width: 1120px; margin: 0 auto; }
+
+    .hero {
+      background: linear-gradient(130deg, #181d3e, #263d76);
+      border-radius: 24px;
+      color: #f4f7ff;
+      padding: 1.4rem;
+      box-shadow: 0 16px 32px rgba(17, 26, 58, 0.24);
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "Space Grotesk", "Trebuchet MS", sans-serif;
+      font-size: clamp(1.45rem, 2.6vw, 2.1rem);
+    }
+
+    .meta {
+      margin-top: 0.6rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .chip {
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 999px;
+      padding: 0.35rem 0.8rem;
+      font-size: 0.86rem;
+    }
+
+    .actions {
+      display: flex;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+      margin: 1rem 0 1.2rem;
+    }
+
+    .btn {
+      text-decoration: none;
+      font-weight: 700;
+      border-radius: 999px;
+      padding: 0.65rem 1rem;
+      border: 1px solid var(--line);
+      color: var(--ink);
+      background: var(--surface);
+    }
+
+    .btn.primary {
+      border: none;
+      color: #fff;
+      background: linear-gradient(120deg, var(--primary), var(--primary-2));
+      box-shadow: 0 10px 24px rgba(255, 111, 63, 0.34);
+    }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 1rem;
+      box-shadow: 0 12px 30px rgba(34, 38, 80, 0.08);
+    }
+
+    .k {
+      margin: 0 0 0.35rem;
+      color: var(--ink-soft);
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+
+    h2 {
+      margin: 0 0 0.7rem;
+      font-size: 1.1rem;
+      font-family: "Space Grotesk", "Trebuchet MS", sans-serif;
+    }
+
+    p {
+      margin: 0 0 0.95rem;
+      line-height: 1.48;
+    }
+
+    .split {
+      display: grid;
+      gap: 0.7rem;
+      grid-template-columns: 1fr;
+    }
+
+    .block {
+      background: #f8f9ff;
+      border: 1px solid #e8eaf8;
+      border-radius: 12px;
+      padding: 0.7rem;
+    }
+
+    .hash {
+      display: inline-flex;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.9rem;
+    }
+
+    .hash span {
+      background: var(--chip);
+      border-radius: 999px;
+      padding: 0.3rem 0.6rem;
+      font-size: 0.84rem;
+    }
+
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
+      body { padding: 1rem 0.65rem 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <h1>Generated Posts for {{ project.business_name }}</h1>
+      <div class="meta">
+        <span class="chip">Industry: {{ project.industry }}</span>
+        <span class="chip">Goal: {{ project.goal }}</span>
+        <span class="chip">Tone: {{ project.tone }}</span>
+        <span class="chip">Location: {{ project.location }}</span>
+        <span class="chip">Posts: {{ posts|length }}</span>
+      </div>
+    </section>
+
+    <div class="actions">
+      <a class="btn primary" href="{% url 'export_project_txt' project.id %}">Export as TXT</a>
+      <a class="btn" href="{% url 'project_records' %}">View All Records</a>
+      <a class="btn" href="/">Generate Another Project</a>
+    </div>
+
+    <section class="grid">
+      {% for post in posts %}
+        <article class="card">
+          <p class="k">Post {{ post.post_number }}</p>
+          <h2>{{ post.post_topic }}</h2>
+
+          <p class="k">Caption</p>
+          <p>{{ post.caption }}</p>
+
+          <div class="split">
+            <div class="block">
+              <p class="k">Instagram Version</p>
+              <p>{{ post.instagram_version }}</p>
+            </div>
+            <div class="block">
+              <p class="k">LinkedIn Version</p>
+              <p>{{ post.linkedin_version }}</p>
+            </div>
+            <div class="block">
+              <p class="k">Facebook Version</p>
+              <p>{{ post.facebook_version }}</p>
+            </div>
+          </div>
+
+          <p class="k">Hashtags</p>
+          <div class="hash">
+            {% for tag in post.hashtags %}
+              <span>{% if tag|slice:":1" == "#" %}{{ tag }}{% else %}#{{ tag }}{% endif %}</span>
+            {% endfor %}
+          </div>
+
+          <p class="k">CTA</p>
+          <p>{{ post.cta }}</p>
+
+          <p class="k">Creative Suggestion</p>
+          <p><strong>Type:</strong> {{ post.creative_type }}</p>
+          <p><strong>Text Overlay:</strong> {{ post.text_overlay_suggestion }}</p>
+          <p><strong>Color Theme:</strong> {{ post.color_theme_suggestion }}</p>
+
+          <p class="k">Image Prompt</p>
+          <p>{{ post.image_prompt }}</p>
+
+          <p class="k">Suggested Publish Date</p>
+          <p>{{ post.publish_at }}</p>
+        </article>
+      {% empty %}
+        <article class="card">
+          <h2>No posts were generated.</h2>
+        </article>
+      {% endfor %}
+    </section>
+  </main>
+</body>
+</html>

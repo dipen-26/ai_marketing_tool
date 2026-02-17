@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Marketing Studio</title>
+  <link rel="stylesheet" href="{% static 'css/theme.css' %}" />
+</head>
+<body class="page-project-form">
+  <div class="shell">
+    <section class="hero">
+      <h1>AI-Based Social Media Post & Creative Generator</h1>
+      <p>Generate high-converting post sets with platform adaptations, visual direction, CTA strategy, and export-ready output.</p>
+    </section>
+
+    <section class="panel">
+      {% if error_message %}
+        <div class="error">{{ error_message }}</div>
+      {% endif %}
+
+      <form method="post">
+        {% csrf_token %}
+        <div class="grid">
+          <div>
+            <label for="{{ form.business_name.id_for_label }}">Business Name</label>
+            {{ form.business_name }}
+          </div>
+          <div>
+            <label for="{{ form.industry.id_for_label }}">Industry</label>
+            {{ form.industry }}
+          </div>
+          <div class="full">
+            <label for="{{ form.target_audience.id_for_label }}">Target Audience</label>
+            {{ form.target_audience }}
+          </div>
+          <div>
+            <label for="{{ form.location.id_for_label }}">Location</label>
+            {{ form.location }}
+          </div>
+          <div>
+            <label for="{{ form.goal.id_for_label }}">Business Goal</label>
+            {{ form.goal }}
+          </div>
+          <div>
+            <label for="{{ form.tone.id_for_label }}">Tone</label>
+            {{ form.tone }}
+          </div>
+          <div>
+            <label for="{{ form.number_of_posts.id_for_label }}">Number of Posts</label>
+            {{ form.number_of_posts }}
+            <p class="hint">Default is 5. Allowed range: 1 to 10.</p>
+          </div>
+          <div>
+            <label for="{{ form.temperature.id_for_label }}">AI Temperature (Bonus)</label>
+            {{ form.temperature }}
+            <p class="hint">Lower = more predictable output, higher = more creative variation.</p>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="submit" type="submit">Generate Campaign Pack</button>
+          <a class="submit" href="{% url 'project_records' %}">View Records</a>
+        </div>
+      </form>
+    </section>
+  </div>
+</body>
+</html>
